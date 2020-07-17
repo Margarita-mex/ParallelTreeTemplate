@@ -1,0 +1,95 @@
+import numpy as np
+import datetime
+
+
+def knff(arr):
+    a=arr[0]
+    b=arr[1]
+    c=arr[2]
+    part1 = np.logical_or(np.logical_or(a, b), c)
+    part2 = np.logical_or(np.logical_or(np.logical_not(a), b), c)
+    part3 = np.logical_or(np.logical_or(a, np.logical_not(b)), c)
+    part4 = np.logical_or(np.logical_or(a, b), np.logical_not(c))
+    return np.logical_and(part1, np.logical_and(part2, np.logical_and(part3, part4)))
+
+
+def knf2(arr):
+    a=arr[0]
+    b=arr[1]
+    part1 = np.logical_or(a, b)
+    part2 = np.logical_or(np.logical_not(a), b)
+    part3 = np.logical_or(a, np.logical_not(b))
+    part4 = np.logical_or(np.logical_not(a),np.logical_not(b))
+    return np.logical_and(part1, np.logical_and(part2, np.logical_and(part3, part4)))
+
+
+def knff3(arr):
+    a=arr[0]
+    b=arr[1]
+    c=arr[2]
+    part1 = np.logical_or(np.logical_or(a, b), c)
+    part2 = np.logical_or(np.logical_or(np.logical_not(a), np.logical_not(b)), np.logical_not(c))
+    part3 = np.logical_or(np.logical_or(a, np.logical_not(b)), c)
+    part4 = np.logical_or(np.logical_or(a, b), np.logical_not(c))
+    part5 = np.logical_or(np.logical_or(np.logical_not(a), b), c)
+    part6 = np.logical_or(np.logical_or(a, np.logical_not(b)), np.logical_not(c))
+    part7 = np.logical_or(np.logical_or(np.logical_not(a), b), np.logical_not(c))
+    part8 = np.logical_or(np.logical_or(np.logical_not(a), np.logical_not(b)), c)
+    return np.logical_and(part1, np.logical_and(part2, np.logical_and(part3, np.logical_and(part4,np.logical_and(part5, np.logical_and(part6, np.logical_and(part7, part8)))))))
+
+
+def knf6(arr):
+    a = arr[0]
+    b = arr[1]
+    c = arr[2]
+    d = arr[3]
+    e = arr[4]
+    f = arr[5]
+    part1 = np.logical_or(np.logical_or(np.logical_or(np.logical_or(np.logical_or(a, b), c),d),e),f)
+    part2 = np.logical_or(np.logical_or(np.logical_or(np.logical_or(np.logical_or(np.logical_not(a), b), c),d),e),np.logical_not(f))
+    return np.logical_and(part1, part2)
+
+
+def process(s, n, f ):
+    arks=[]
+    for i in range(len(s)):
+        arks.append(np.array([s[i]]))
+    arks=np.array(arks)
+    res = f(arks)
+    if res[0] == True:
+        print('exist')
+
+
+
+def ProcessBinaryStrings(s, k, n,f ):
+    if k >= n:
+        process(s, n, f)
+    else:
+        s[k] = False
+        ProcessBinaryStrings(s, k + 1, n, f)
+        s[k] = True
+        ProcessBinaryStrings(s, k + 1, n, f)
+
+if __name__ == '__main__':
+    t1=datetime.datetime.now()
+    n = 3
+    r = [0] * n
+    print(r)
+    ProcessBinaryStrings(r, 0, n, f=knff)
+    print(datetime.datetime.now()-t1)
+
+
+    t2 = datetime.datetime.now()
+    n2 = 2
+    r2 = [0] * n2
+    print('r2=',r2)
+    ProcessBinaryStrings(r2, 0, n2, f=knf2)
+    print(datetime.datetime.now() - t2)
+
+    t6 = datetime.datetime.now()
+    n6 = 6
+    r6 = [0] * n6
+    print('r6=', r6)
+    ProcessBinaryStrings(r6, 0, n6, f=knf6)
+    print(datetime.datetime.now() - t6)
+
